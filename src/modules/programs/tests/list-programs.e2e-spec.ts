@@ -85,9 +85,12 @@ describe(`[GET] ${endpoint} - List programs`, () => {
       }
     });
     it('Should be able to filter programs by date', async () => {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+
       const query = {
-        date_start: new Date().toISOString(),
-        end_date: new Date().toISOString(),
+        date_start: yesterday.toISOString(),
+        date_end: new Date().toISOString(),
       };
 
       const { body, status } = await request(app.getHttpServer())

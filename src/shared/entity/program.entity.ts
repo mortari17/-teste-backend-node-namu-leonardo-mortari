@@ -8,9 +8,9 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export enum EnumProgramCategory {
-  MEDITATION = 'meditação',
-  EXERCISE = 'exercício',
-  NUTRITION = 'nutrição',
+  MEDITATION = 'meditaÃ§Ã£o',
+  EXERCISE = 'exercÃ­cio',
+  NUTRITION = 'nutriÃ§Ã£o',
 }
 
 @Entity('programs')

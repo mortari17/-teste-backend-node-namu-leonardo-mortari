@@ -45,6 +45,7 @@ export class ListProgramsRequest extends ListGlobalRequest {
 
   @ApiPropertyOptional({ example: 12 })
   @IsOptional()
+  @Transform(({ value }) => Number(value))
   @IsInt()
   @Min(MIN_DURATION_WEEKS)
   duration_weeks?: number;
