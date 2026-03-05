@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { EnumProgramCategory, Program } from '@shared/entity/program.entity';
+import { Program } from '@shared/entity/program.entity';
 import {
   MAX_NAME_LENGTH,
   MIN_DURATION_WEEKS,
@@ -15,6 +15,12 @@ import {
   MinLength,
 } from 'class-validator';
 
+export enum EnumProgramCategoryDTO {
+  MEDITATION = 'meditação',
+  EXERCISE = 'exercício',
+  NUTRITION = 'nutrição',
+}
+
 export class CreateProgramRequest {
   @ApiProperty({ example: 'Program Name' })
   @IsString()
@@ -28,11 +34,11 @@ export class CreateProgramRequest {
   description?: string;
 
   @ApiProperty({
-    enum: EnumProgramCategory,
-    example: EnumProgramCategory.EXERCISE,
+    enum: EnumProgramCategoryDTO,
+    example: EnumProgramCategoryDTO.EXERCISE,
   })
-  @IsEnum(EnumProgramCategory)
-  category: EnumProgramCategory;
+  @IsEnum(EnumProgramCategoryDTO)
+  category: EnumProgramCategoryDTO;
 
   @ApiProperty({ example: 12 })
   @IsInt()

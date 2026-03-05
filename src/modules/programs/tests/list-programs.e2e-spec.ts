@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
-import { EnumProgramCategory } from '@shared/entity/program.entity';
+import { EnumProgramCategoryDTO } from '../dto/create-program.dto';
 
 const endpoint = '/programs';
 
@@ -57,7 +57,7 @@ describe(`[GET] ${endpoint} - List programs`, () => {
       }
     });
     it('Should be able to filter programs by category', async () => {
-      const query = { category: EnumProgramCategory.MEDITATION };
+      const query = { category: EnumProgramCategoryDTO.MEDITATION };
 
       const { body, status } = await request(app.getHttpServer())
         .get(endpoint)

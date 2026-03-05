@@ -2,8 +2,10 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
-import { EnumProgramCategory } from '../../../shared/entity/program.entity';
-import { CreateProgramRequest } from '../dto/create-program.dto';
+import {
+  CreateProgramRequest,
+  EnumProgramCategoryDTO,
+} from '../dto/create-program.dto';
 
 const endpoint = '/programs';
 
@@ -19,7 +21,7 @@ describe(`[POST] ${endpoint} - Create program`, () => {
       const payload: CreateProgramRequest = {
         name: 'Novo Programa',
         description: 'Descrição do programa',
-        category: EnumProgramCategory.EXERCISE,
+        category: EnumProgramCategoryDTO.EXERCISE,
         duration_weeks: 8,
       };
 

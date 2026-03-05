@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { EnumProgramCategory, Program } from '@shared/entity/program.entity';
+import { Program } from '@shared/entity/program.entity';
 import {
   MAX_NAME_LENGTH,
   MIN_DURATION_WEEKS,
@@ -20,6 +20,7 @@ import {
   ListGlobalRequest,
   ListGlobalResponse,
 } from '@shared/utils/global.utils';
+import { EnumProgramCategoryDTO } from './create-program.dto';
 
 export class ListProgramsRequest extends ListGlobalRequest {
   @ApiPropertyOptional({ example: 1 })
@@ -36,12 +37,12 @@ export class ListProgramsRequest extends ListGlobalRequest {
   name?: string;
 
   @ApiPropertyOptional({
-    enum: EnumProgramCategory,
-    example: EnumProgramCategory.EXERCISE,
+    enum: EnumProgramCategoryDTO,
+    example: EnumProgramCategoryDTO.EXERCISE,
   })
   @IsOptional()
-  @IsEnum(EnumProgramCategory)
-  category?: EnumProgramCategory;
+  @IsEnum(EnumProgramCategoryDTO)
+  category?: EnumProgramCategoryDTO;
 
   @ApiPropertyOptional({ example: 12 })
   @IsOptional()

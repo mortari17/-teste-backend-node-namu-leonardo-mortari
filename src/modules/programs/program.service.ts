@@ -21,6 +21,7 @@ import {
   UpdateProgramResponse,
 } from './dto/update-program.dto';
 import { DeleteProgramResponse } from './dto/delete-program.dto';
+import { parseCategory } from '@shared/utils/parser.utils';
 
 @Injectable()
 export class ProgramService {
@@ -44,7 +45,11 @@ export class ProgramService {
   async createProgram(
     data: CreateProgramRequest,
   ): Promise<CreateProgramResponse> {
-    const program = this.programRepository.create(data);
+    const program = this.programRepository.create({
+      ...data,
+      category: parseCategory(data.category),
+    });
+
     return this.programRepository.save(program);
   }
 
@@ -60,7 +65,12 @@ export class ProgramService {
       throw new NotFoundException('Program not found');
     }
 
-    const updated = this.programRepository.merge(program, data);
+    const updatedData = {
+      ...data,
+      category: parseCategory(data.category),
+    };
+
+    const updated = this.programRepository.merge(program, updatedData);
 
     return await this.programRepository.save(updated);
   }
@@ -117,7 +127,7 @@ export class ProgramService {
       where: {
         id,
         name: name ? ILike(`%${name}%`) : undefined,
-        category,
+        category: parseCategory(category),
         duration_weeks,
         created_at:
           date_start && date_end ? Between(start_date!, end_date!) : undefined,
