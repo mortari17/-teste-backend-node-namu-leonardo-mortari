@@ -1,11 +1,6 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, ILike, Repository } from 'typeorm';
-import { endOfDay, startOfDay } from 'date-fns';
 import { Participation } from '@shared/entity/participation.entity';
 import { GetParticipationResponse } from './dto/get-participation.dto';
 import {
@@ -22,6 +17,7 @@ import {
   ListParticipationsResponse,
 } from './dto/list-participations.dto';
 import { ActivityService } from '@modules/activities/activity.service';
+import { validateStartAndEndDates } from '@shared/utils/validators.utils';
 
 @Injectable()
 export class ParticipationService {
@@ -87,23 +83,10 @@ export class ParticipationService {
 
     const skip: number = (page - 1) * page_size;
 
-    if ((date_start && !date_end) || (!date_start && date_end)) {
-      throw new BadRequestException(
-        'Both date_start and date_end must be provided together',
-      );
-    }
-
-    let start_date: Date | undefined = undefined,
-      end_date: Date | undefined = undefined;
-
-    if (date_start && date_end) {
-      start_date = startOfDay(new Date(date_start));
-      end_date = endOfDay(new Date(date_end));
-
-      if (start_date > end_date) {
-        throw new BadRequestException('date_start must be before date_end');
-      }
-    }
+    const { date_start_time, date_end_time } = validateStartAndEndDates(
+      date_start,
+      date_end,
+    );
 
     const [data, total] = await this.participationRepository.findAndCount({
       where: {
@@ -111,7 +94,9 @@ export class ParticipationService {
         user_name: user_name ? ILike(`%${user_name}%`) : undefined,
         activity_id,
         completed_at:
-          date_start && date_end ? Between(start_date!, end_date!) : undefined,
+          date_start && date_end
+            ? Between(date_start_time!, date_end_time!)
+            : undefined,
       },
       order: { completed_at: 'DESC' },
       take: page_size,
