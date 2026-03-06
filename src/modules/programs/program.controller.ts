@@ -48,6 +48,7 @@ import {
   UpdateProgramActivityResponse,
 } from './dto/update-program-activity.dto';
 import { DeleteProgramActivityResponse } from './dto/delete-program-activity.dto';
+import { GetProgramSummaryResponse } from './dto/get-program-summary.dto';
 
 @ApiTags('Program')
 @Controller('/programs')
@@ -162,5 +163,14 @@ export class ProgramController {
     @Param() { program_id, activity_id }: UpdateProgramActivityParamRequest,
   ) {
     return this.programsService.deleteProgramActivity(program_id, activity_id);
+  }
+
+  @Get('/:program_id/summary')
+  @Documentation({
+    title: 'Get a program summary',
+    responses: [{ type: GetProgramSummaryResponse }],
+  })
+  getProgramSummary(@Param() { program_id }: GetProgramRequest) {
+    return this.programsService.getProgramSummary(program_id);
   }
 }
