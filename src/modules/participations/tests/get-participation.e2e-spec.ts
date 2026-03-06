@@ -3,9 +3,9 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 
-const baseEndpoint = '/programs/1/activities';
+const endpoint = '/participations';
 
-describe(`[GET] ${baseEndpoint}/:activity_id - Get program activity by id`, () => {
+describe(`[GET] ${endpoint}/:id - Get participation by id`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -17,9 +17,9 @@ describe(`[GET] ${baseEndpoint}/:activity_id - Get program activity by id`, () =
   });
 
   describe('Success', () => {
-    it('Should be able to successfully get an activity by id', async () => {
+    it('Should be able to successfully get a participation by id', async () => {
       const { body, status } = await request(app.getHttpServer()).get(
-        `${baseEndpoint}/1`,
+        `${endpoint}/1`,
       );
 
       expect(status).toBe(200);
@@ -30,13 +30,13 @@ describe(`[GET] ${baseEndpoint}/:activity_id - Get program activity by id`, () =
   });
 
   describe('Error', () => {
-    it('Should throw an error when the activity is not found', async () => {
+    it('Should throw an error when the participation is not found', async () => {
       const { body, status } = await request(app.getHttpServer()).get(
-        `${baseEndpoint}/999`,
+        `${endpoint}/999`,
       );
 
       expect(status).toBe(404);
-      expect(body.message).toBe('Activity not found');
+      expect(body.message).toBe('Participation not found');
     });
   });
 });

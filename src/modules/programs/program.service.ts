@@ -22,15 +22,10 @@ import {
 } from './dto/update-program.dto';
 import { DeleteProgramResponse } from './dto/delete-program.dto';
 import { Activity } from '@shared/entity/activity.entity';
-import { GetProgramActivityResponse } from './dto/get-program-activity.dto';
 import {
   CreateProgramActivityRequest,
   CreateProgramActivityResponse,
 } from './dto/create-program-activity.dto';
-import {
-  UpdateProgramActivityBodyRequest,
-  UpdateProgramActivityResponse,
-} from './dto/update-program-activity.dto';
 import {
   ListProgramActivitiesRequest,
   ListProgramActivitiesResponse,
@@ -69,13 +64,7 @@ export class ProgramService {
     id: number,
     data: UpdateProgramBodyRequest,
   ): Promise<UpdateProgramResponse> {
-    const program = await this.programRepository.findOne({
-      where: { id },
-    });
-
-    if (!program) {
-      throw new NotFoundException('Program not found');
-    }
+    const program = await this.getProgram(id);
 
     const updated = this.programRepository.merge(program, data);
 
@@ -83,13 +72,7 @@ export class ProgramService {
   }
 
   async deleteProgram(id: number): Promise<DeleteProgramResponse> {
-    const program = await this.programRepository.findOne({
-      where: { id },
-    });
-
-    if (!program) {
-      throw new NotFoundException('Program not found');
-    }
+    await this.getProgram(id);
 
     await this.programRepository.delete({ id });
 
@@ -152,32 +135,11 @@ export class ProgramService {
     };
   }
 
-  async getProgramActivity(
-    program_id: number,
-    activity_id: number,
-  ): Promise<GetProgramActivityResponse> {
-    const activity = await this.activityRepository.findOne({
-      where: { program_id, id: activity_id },
-    });
-
-    if (!activity) {
-      throw new NotFoundException('Activity not found');
-    }
-
-    return activity;
-  }
-
   async createProgramActivity(
     program_id: number,
     data: CreateProgramActivityRequest,
   ): Promise<CreateProgramActivityResponse> {
-    const program = await this.programRepository.findOne({
-      where: { id: program_id },
-    });
-
-    if (!program) {
-      throw new NotFoundException('Program not found');
-    }
+    await this.getProgram(program_id);
 
     const activity = this.activityRepository.create({
       program_id,
@@ -185,41 +147,6 @@ export class ProgramService {
     });
 
     return this.activityRepository.save(activity);
-  }
-
-  async updateProgramActivity(
-    program_id: number,
-    activity_id: number,
-    data: UpdateProgramActivityBodyRequest,
-  ): Promise<UpdateProgramActivityResponse> {
-    const activity = await this.activityRepository.findOne({
-      where: { program_id, id: activity_id },
-    });
-
-    if (!activity) {
-      throw new NotFoundException('Activity not found');
-    }
-
-    const updated = this.activityRepository.merge(activity, data);
-
-    return await this.activityRepository.save(updated);
-  }
-
-  async deleteProgramActivity(
-    program_id: number,
-    activity_id: number,
-  ): Promise<DeleteProgramResponse> {
-    const activity = await this.activityRepository.findOne({
-      where: { program_id, id: activity_id },
-    });
-
-    if (!activity) {
-      throw new NotFoundException('Activity not found');
-    }
-
-    await this.activityRepository.delete({ id: activity_id });
-
-    return { success: true };
   }
 
   async listProgramActivities(

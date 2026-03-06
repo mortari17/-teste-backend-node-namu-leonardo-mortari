@@ -3,9 +3,9 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 
-const baseEndpoint = '/programs/3/activities';
+const baseEndpoint = '/activities';
 
-describe(`[DELETE] ${baseEndpoint}/:activity_id - Delete program activity`, () => {
+describe(`[DELETE] ${baseEndpoint}/:activity_id - Delete activity`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe(`[DELETE] ${baseEndpoint}/:activity_id - Delete program activity`, () =
   });
 
   describe('Success', () => {
-    it('Should be able to successfully delete a program activity', async () => {
+    it('Should be able to successfully delete an activity', async () => {
       const { body, status } = await request(app.getHttpServer()).delete(
         `${baseEndpoint}/6`,
       );

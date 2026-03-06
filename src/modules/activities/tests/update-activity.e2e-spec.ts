@@ -3,9 +3,9 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 
-const baseEndpoint = '/programs/1/activities';
+const baseEndpoint = '/activities';
 
-describe(`[PUT] ${baseEndpoint}/:activity_id - Update program activity`, () => {
+describe(`[PUT] ${baseEndpoint}/:activity_id - Update activity`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -17,7 +17,7 @@ describe(`[PUT] ${baseEndpoint}/:activity_id - Update program activity`, () => {
   });
 
   describe('Success', () => {
-    it('Should be able to successfully update a program activity', async () => {
+    it('Should be able to successfully update an activity', async () => {
       const payload = {
         title: 'Sessão Atualizada',
         duration_minutes: 60,

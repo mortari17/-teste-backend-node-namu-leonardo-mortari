@@ -4,9 +4,16 @@ import { AppService } from './app.service';
 import { ProgramModule } from '@modules/programs/program.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeorm_config } from '@config/typeorm.config';
+import { ParticipationModule } from '@modules/participations/participation.module';
+import { ActivityModule } from '@modules/activities/activity.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeorm_config), ProgramModule],
+  imports: [
+    TypeOrmModule.forRoot(typeorm_config),
+    ProgramModule,
+    ParticipationModule,
+    ActivityModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
