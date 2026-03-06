@@ -38,7 +38,7 @@ type Definition = {
 
 class InternalServerErrorApiResponse {
   @ApiProperty({ default: 500 })
-  statusCode: number;
+  status_code: number;
 
   @ApiProperty()
   error: string;

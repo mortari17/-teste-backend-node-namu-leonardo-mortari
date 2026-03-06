@@ -22,19 +22,16 @@ import {
 } from './dto/update-program.dto';
 import { DeleteProgramResponse } from './dto/delete-program.dto';
 import { Activity } from '@shared/entity/activity.entity';
-import { GetProgramActivityResponse } from './dto/get-program-activity.dto';
 import {
   CreateProgramActivityRequest,
   CreateProgramActivityResponse,
 } from './dto/create-program-activity.dto';
 import {
-  UpdateProgramActivityBodyRequest,
-  UpdateProgramActivityResponse,
-} from './dto/update-program-activity.dto';
-import {
   ListProgramActivitiesRequest,
   ListProgramActivitiesResponse,
 } from './dto/list-program-activities.dto';
+import { GetProgramSummaryResponse } from './dto/get-program-summary.dto';
+import { Participation } from '@shared/entity/participation.entity';
 
 @Injectable()
 export class ProgramService {
@@ -43,6 +40,8 @@ export class ProgramService {
     private programRepository: Repository<Program>,
     @InjectRepository(Activity)
     private activityRepository: Repository<Activity>,
+    @InjectRepository(Participation)
+    private participationRepository: Repository<Participation>,
   ) {}
 
   async getProgram(id: number): Promise<GetProgramResponse> {
@@ -69,13 +68,7 @@ export class ProgramService {
     id: number,
     data: UpdateProgramBodyRequest,
   ): Promise<UpdateProgramResponse> {
-    const program = await this.programRepository.findOne({
-      where: { id },
-    });
-
-    if (!program) {
-      throw new NotFoundException('Program not found');
-    }
+    const program = await this.getProgram(id);
 
     const updated = this.programRepository.merge(program, data);
 
@@ -83,13 +76,7 @@ export class ProgramService {
   }
 
   async deleteProgram(id: number): Promise<DeleteProgramResponse> {
-    const program = await this.programRepository.findOne({
-      where: { id },
-    });
-
-    if (!program) {
-      throw new NotFoundException('Program not found');
-    }
+    await this.getProgram(id);
 
     await this.programRepository.delete({ id });
 
@@ -152,32 +139,11 @@ export class ProgramService {
     };
   }
 
-  async getProgramActivity(
-    program_id: number,
-    activity_id: number,
-  ): Promise<GetProgramActivityResponse> {
-    const activity = await this.activityRepository.findOne({
-      where: { program_id, id: activity_id },
-    });
-
-    if (!activity) {
-      throw new NotFoundException('Activity not found');
-    }
-
-    return activity;
-  }
-
   async createProgramActivity(
     program_id: number,
     data: CreateProgramActivityRequest,
   ): Promise<CreateProgramActivityResponse> {
-    const program = await this.programRepository.findOne({
-      where: { id: program_id },
-    });
-
-    if (!program) {
-      throw new NotFoundException('Program not found');
-    }
+    await this.getProgram(program_id);
 
     const activity = this.activityRepository.create({
       program_id,
@@ -185,41 +151,6 @@ export class ProgramService {
     });
 
     return this.activityRepository.save(activity);
-  }
-
-  async updateProgramActivity(
-    program_id: number,
-    activity_id: number,
-    data: UpdateProgramActivityBodyRequest,
-  ): Promise<UpdateProgramActivityResponse> {
-    const activity = await this.activityRepository.findOne({
-      where: { program_id, id: activity_id },
-    });
-
-    if (!activity) {
-      throw new NotFoundException('Activity not found');
-    }
-
-    const updated = this.activityRepository.merge(activity, data);
-
-    return await this.activityRepository.save(updated);
-  }
-
-  async deleteProgramActivity(
-    program_id: number,
-    activity_id: number,
-  ): Promise<DeleteProgramResponse> {
-    const activity = await this.activityRepository.findOne({
-      where: { program_id, id: activity_id },
-    });
-
-    if (!activity) {
-      throw new NotFoundException('Activity not found');
-    }
-
-    await this.activityRepository.delete({ id: activity_id });
-
-    return { success: true };
   }
 
   async listProgramActivities(
@@ -248,6 +179,44 @@ export class ProgramService {
       page: filters.page,
       page_size: filters.page_size,
       total,
+    };
+  }
+
+  async getProgramSummary(
+    program_id: number,
+  ): Promise<GetProgramSummaryResponse> {
+    await this.getProgram(program_id);
+
+    const total_activities = await this.activityRepository.count({
+      where: { program_id },
+    });
+
+    const total_participations = await this.participationRepository
+      .createQueryBuilder('p')
+      .innerJoin(Activity, 'a', 'a.id = p.activity_id')
+      .where('a.program_id = :program_id', { program_id })
+      .getCount();
+
+    const TOP_PARTICIPANTS_LIMIT = 5;
+
+    const top_participants = await this.participationRepository
+      .createQueryBuilder('p')
+      .select('p.user_name', 'user_name')
+      .addSelect('COUNT(*)', 'participations')
+      .innerJoin(Activity, 'a', 'a.id = p.activity_id')
+      .where('a.program_id = :program_id', { program_id })
+      .groupBy('p.user_name')
+      .orderBy('participations', 'DESC')
+      .limit(TOP_PARTICIPANTS_LIMIT)
+      .getRawMany();
+
+    return {
+      total_activities,
+      total_participations,
+      top_participants: top_participants.map((p) => ({
+        user_name: p.user_name,
+        participations: Number(p.participations),
+      })),
     };
   }
 }

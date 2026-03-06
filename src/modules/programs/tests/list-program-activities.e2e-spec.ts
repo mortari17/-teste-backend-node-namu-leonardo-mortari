@@ -4,9 +4,9 @@ import request from 'supertest';
 import { getApp } from '../../../../test/testing-module';
 import { EnumDayOfWeek } from '@shared/entity/activity.entity';
 
-const baseEndpoint = '/programs/1/activities';
+const base_endpoint = '/programs/1/activities';
 
-describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
+describe(`[GET] ${base_endpoint} - List activities for a program`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -20,7 +20,7 @@ describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
   describe('Success', () => {
     it('Should be able to successfully list activities', async () => {
       const { body, status } = await request(app.getHttpServer()).get(
-        baseEndpoint,
+        base_endpoint,
       );
 
       expect(status).toBe(200);
@@ -38,7 +38,7 @@ describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
       const query = { title: 'Respiração' };
 
       const { body, status } = await request(app.getHttpServer())
-        .get(baseEndpoint)
+        .get(base_endpoint)
         .query(query);
 
       expect(status).toBe(200);
@@ -52,7 +52,7 @@ describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
       const query = { id: 1 };
 
       const { body, status } = await request(app.getHttpServer())
-        .get(baseEndpoint)
+        .get(base_endpoint)
         .query(query);
 
       expect(status).toBe(200);
@@ -66,7 +66,7 @@ describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
       const query = { day_of_week: EnumDayOfWeek.MONDAY };
 
       const { body, status } = await request(app.getHttpServer())
-        .get(baseEndpoint)
+        .get(base_endpoint)
         .query(query);
 
       expect(status).toBe(200);
@@ -80,7 +80,7 @@ describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
       const query = { duration_minutes: 30 };
 
       const { body, status } = await request(app.getHttpServer())
-        .get(baseEndpoint)
+        .get(base_endpoint)
         .query(query);
 
       expect(status).toBe(200);
@@ -100,7 +100,7 @@ describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
       };
 
       const { body, status } = await request(app.getHttpServer())
-        .get(baseEndpoint)
+        .get(base_endpoint)
         .query(query);
 
       expect(status).toBe(200);

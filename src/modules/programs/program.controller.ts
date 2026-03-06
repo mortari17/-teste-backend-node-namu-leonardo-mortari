@@ -38,21 +38,12 @@ import {
   CreateProgramActivityRequest,
   CreateProgramActivityResponse,
 } from './dto/create-program-activity.dto';
-import {
-  GetProgramActivityRequest,
-  GetProgramActivityResponse,
-} from './dto/get-program-activity.dto';
-import {
-  UpdateProgramActivityBodyRequest,
-  UpdateProgramActivityParamRequest,
-  UpdateProgramActivityResponse,
-} from './dto/update-program-activity.dto';
-import { DeleteProgramActivityResponse } from './dto/delete-program-activity.dto';
+import { GetProgramSummaryResponse } from './dto/get-program-summary.dto';
 
 @ApiTags('Program')
 @Controller('/programs')
 export class ProgramController {
-  constructor(private programsService: ProgramService) {}
+  constructor(private programService: ProgramService) {}
 
   @Get()
   @Documentation({
@@ -60,7 +51,7 @@ export class ProgramController {
     responses: [{ type: ListProgramsResponse }],
   })
   listPrograms(@Query() data: ListProgramsRequest) {
-    return this.programsService.listPrograms(data);
+    return this.programService.listPrograms(data);
   }
 
   @Get('/:program_id')
@@ -69,7 +60,7 @@ export class ProgramController {
     responses: [{ type: GetProgramResponse }],
   })
   getProgram(@Param() { program_id }: GetProgramRequest) {
-    return this.programsService.getProgram(program_id);
+    return this.programService.getProgram(program_id);
   }
 
   @Post()
@@ -78,7 +69,7 @@ export class ProgramController {
     responses: [{ type: CreateProgramResponse }],
   })
   createProgram(@Body() data: CreateProgramRequest) {
-    return this.programsService.createProgram(data);
+    return this.programService.createProgram(data);
   }
 
   @Put('/:program_id')
@@ -90,7 +81,7 @@ export class ProgramController {
     @Param() { program_id }: UpdateProgramParamRequest,
     @Body() data: UpdateProgramBodyRequest,
   ) {
-    return this.programsService.updateProgram(program_id, data);
+    return this.programService.updateProgram(program_id, data);
   }
 
   @Delete(':program_id')
@@ -99,7 +90,7 @@ export class ProgramController {
     responses: [{ type: DeleteProgramResponse }],
   })
   deleteProgram(@Param() { program_id }: DeleteProgramRequest) {
-    return this.programsService.deleteProgram(program_id);
+    return this.programService.deleteProgram(program_id);
   }
 
   @Get('/:program_id/activities')
@@ -111,18 +102,7 @@ export class ProgramController {
     @Param() { program_id }: GetProgramRequest,
     @Query() data: ListProgramActivitiesRequest,
   ) {
-    return this.programsService.listProgramActivities(program_id, data);
-  }
-
-  @Get('/:program_id/activities/:activity_id')
-  @Documentation({
-    title: 'Get an activity of a program',
-    responses: [{ type: GetProgramActivityResponse }],
-  })
-  getProgramActivity(
-    @Param() { program_id, activity_id }: GetProgramActivityRequest,
-  ) {
-    return this.programsService.getProgramActivity(program_id, activity_id);
+    return this.programService.listProgramActivities(program_id, data);
   }
 
   @Post('/:program_id/activities')
@@ -134,33 +114,15 @@ export class ProgramController {
     @Param() { program_id }: GetProgramRequest,
     @Body() data: CreateProgramActivityRequest,
   ) {
-    return this.programsService.createProgramActivity(program_id, data);
+    return this.programService.createProgramActivity(program_id, data);
   }
 
-  @Put('/:program_id/activities/:activity_id')
+  @Get('/:program_id/summary')
   @Documentation({
-    title: 'Update an activity for a program',
-    responses: [{ type: UpdateProgramActivityResponse }],
+    title: 'Get a program summary',
+    responses: [{ type: GetProgramSummaryResponse }],
   })
-  updateProgramActivity(
-    @Param() { program_id, activity_id }: UpdateProgramActivityParamRequest,
-    @Body() data: UpdateProgramActivityBodyRequest,
-  ) {
-    return this.programsService.updateProgramActivity(
-      program_id,
-      activity_id,
-      data,
-    );
-  }
-
-  @Delete('/:program_id/activities/:activity_id')
-  @Documentation({
-    title: 'Delete an activity for a program',
-    responses: [{ type: DeleteProgramActivityResponse }],
-  })
-  deleteProgramActivity(
-    @Param() { program_id, activity_id }: UpdateProgramActivityParamRequest,
-  ) {
-    return this.programsService.deleteProgramActivity(program_id, activity_id);
+  getProgramSummary(@Param() { program_id }: GetProgramRequest) {
+    return this.programService.getProgramSummary(program_id);
   }
 }

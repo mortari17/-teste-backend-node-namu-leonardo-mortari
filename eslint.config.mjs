@@ -26,6 +26,25 @@ export default tseslint.config(
   },
   {
     rules: {
+      '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'variable',
+        format: ['snake_case', 'UPPER_CASE'],
+      },
+      {
+        selector: 'classProperty',
+        format: ['snake_case'],
+      },
+      {
+        selector: 'function',
+        format: ['camelCase', 'PascalCase'],
+      },
+      {
+        selector: 'class',
+        format: ['PascalCase'],
+      },
+    ],
       "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-redundant-type-constituents": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
