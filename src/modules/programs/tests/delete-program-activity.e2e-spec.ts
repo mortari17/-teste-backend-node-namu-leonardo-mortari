@@ -8,8 +8,12 @@ const baseEndpoint = '/programs/3/activities';
 describe(`[DELETE] ${baseEndpoint}/:activity_id - Delete program activity`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {

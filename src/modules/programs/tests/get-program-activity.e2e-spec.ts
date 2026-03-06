@@ -8,8 +8,12 @@ const baseEndpoint = '/programs/1/activities';
 describe(`[GET] ${baseEndpoint}/:activity_id - Get program activity by id`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {
