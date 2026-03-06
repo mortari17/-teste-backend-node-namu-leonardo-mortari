@@ -38,6 +38,7 @@ import {
   CreateProgramActivityRequest,
   CreateProgramActivityResponse,
 } from './dto/create-program-activity.dto';
+import { GetProgramSummaryResponse } from './dto/get-program-summary.dto';
 
 @ApiTags('Program')
 @Controller('/programs')
@@ -114,5 +115,14 @@ export class ProgramController {
     @Body() data: CreateProgramActivityRequest,
   ) {
     return this.programService.createProgramActivity(program_id, data);
+  }
+
+  @Get('/:program_id/summary')
+  @Documentation({
+    title: 'Get a program summary',
+    responses: [{ type: GetProgramSummaryResponse }],
+  })
+  getProgramSummary(@Param() { program_id }: GetProgramRequest) {
+    return this.programService.getProgramSummary(program_id);
   }
 }

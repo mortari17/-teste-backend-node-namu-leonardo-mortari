@@ -30,6 +30,8 @@ import {
   ListProgramActivitiesRequest,
   ListProgramActivitiesResponse,
 } from './dto/list-program-activities.dto';
+import { GetProgramSummaryResponse } from './dto/get-program-summary.dto';
+import { Participation } from '@shared/entity/participation.entity';
 
 @Injectable()
 export class ProgramService {
@@ -38,6 +40,8 @@ export class ProgramService {
     private programRepository: Repository<Program>,
     @InjectRepository(Activity)
     private activityRepository: Repository<Activity>,
+    @InjectRepository(Participation)
+    private participationRepository: Repository<Participation>,
   ) {}
 
   async getProgram(id: number): Promise<GetProgramResponse> {
@@ -175,6 +179,44 @@ export class ProgramService {
       page: filters.page,
       page_size: filters.page_size,
       total,
+    };
+  }
+
+  async getProgramSummary(
+    program_id: number,
+  ): Promise<GetProgramSummaryResponse> {
+    await this.getProgram(program_id);
+
+    const total_activities = await this.activityRepository.count({
+      where: { program_id },
+    });
+
+    const total_participations = await this.participationRepository
+      .createQueryBuilder('p')
+      .innerJoin(Activity, 'a', 'a.id = p.activity_id')
+      .where('a.program_id = :program_id', { program_id })
+      .getCount();
+
+    const TOP_PARTICIPANTS_LIMIT = 5;
+
+    const top_participants = await this.participationRepository
+      .createQueryBuilder('p')
+      .select('p.user_name', 'user_name')
+      .addSelect('COUNT(*)', 'participations')
+      .innerJoin(Activity, 'a', 'a.id = p.activity_id')
+      .where('a.program_id = :program_id', { program_id })
+      .groupBy('p.user_name')
+      .orderBy('participations', 'DESC')
+      .limit(TOP_PARTICIPANTS_LIMIT)
+      .getRawMany();
+
+    return {
+      total_activities,
+      total_participations,
+      top_participants: top_participants.map((p) => ({
+        user_name: p.user_name,
+        participations: Number(p.participations),
+      })),
     };
   }
 }

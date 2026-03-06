@@ -3,9 +3,9 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 
-const baseEndpoint = '/activities';
+const base_endpoint = '/activities';
 
-describe(`[DELETE] ${baseEndpoint}/:activity_id - Delete activity`, () => {
+describe(`[DELETE] ${base_endpoint}/:activity_id - Delete activity`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -19,7 +19,7 @@ describe(`[DELETE] ${baseEndpoint}/:activity_id - Delete activity`, () => {
   describe('Success', () => {
     it('Should be able to successfully delete an activity', async () => {
       const { body, status } = await request(app.getHttpServer()).delete(
-        `${baseEndpoint}/6`,
+        `${base_endpoint}/6`,
       );
 
       expect(status).toBe(200);
@@ -30,7 +30,7 @@ describe(`[DELETE] ${baseEndpoint}/:activity_id - Delete activity`, () => {
   describe('Error', () => {
     it('Should throw an error when the activity is not found', async () => {
       const { body, status } = await request(app.getHttpServer()).delete(
-        `${baseEndpoint}/999`,
+        `${base_endpoint}/999`,
       );
 
       expect(status).toBe(404);

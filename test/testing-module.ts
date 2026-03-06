@@ -4,11 +4,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../src/app.module';
 
 export async function getApp(): Promise<INestApplication> {
-  const moduleRef: TestingModule = await Test.createTestingModule({
+  const module_ref: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
   }).compile();
 
-  const app = moduleRef.createNestApplication();
+  const app = module_ref.createNestApplication();
 
   app.useGlobalPipes(
     new ValidationPipe({

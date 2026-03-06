@@ -3,9 +3,9 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 
-const baseEndpoint = '/activities';
+const base_endpoint = '/activities';
 
-describe(`[GET] ${baseEndpoint}/:activity_id - Get activity by id`, () => {
+describe(`[GET] ${base_endpoint}/:activity_id - Get activity by id`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -19,7 +19,7 @@ describe(`[GET] ${baseEndpoint}/:activity_id - Get activity by id`, () => {
   describe('Success', () => {
     it('Should be able to successfully get an activity by id', async () => {
       const { body, status } = await request(app.getHttpServer()).get(
-        `${baseEndpoint}/1`,
+        `${base_endpoint}/1`,
       );
 
       expect(status).toBe(200);
@@ -32,7 +32,7 @@ describe(`[GET] ${baseEndpoint}/:activity_id - Get activity by id`, () => {
   describe('Error', () => {
     it('Should throw an error when the activity is not found', async () => {
       const { body, status } = await request(app.getHttpServer()).get(
-        `${baseEndpoint}/999`,
+        `${base_endpoint}/999`,
       );
 
       expect(status).toBe(404);

@@ -5,9 +5,9 @@ import { getApp } from '../../../../test/testing-module';
 import { CreateProgramActivityRequest } from '../dto/create-program-activity.dto';
 import { EnumDayOfWeek } from '@shared/entity/activity.entity';
 
-const baseEndpoint = '/programs';
+const base_endpoint = '/programs';
 
-describe(`[POST] ${baseEndpoint} - Create activity for program`, () => {
+describe(`[POST] ${base_endpoint} - Create activity for program`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -20,7 +20,7 @@ describe(`[POST] ${baseEndpoint} - Create activity for program`, () => {
 
   describe('Success', () => {
     it('Should be able to successfully create a program activity', async () => {
-      const endpoint = `${baseEndpoint}/1/activities`;
+      const endpoint = `${base_endpoint}/1/activities`;
       const payload: CreateProgramActivityRequest = {
         title: 'Nova Sessão',
         day_of_week: EnumDayOfWeek.MONDAY,
@@ -43,7 +43,7 @@ describe(`[POST] ${baseEndpoint} - Create activity for program`, () => {
 
   describe('Error', () => {
     it('Should throw an error when the program is not found', async () => {
-      const endpoint = `${baseEndpoint}/999/activities`;
+      const endpoint = `${base_endpoint}/999/activities`;
       const payload: CreateProgramActivityRequest = {
         title: 'Nova Sessão',
         day_of_week: EnumDayOfWeek.MONDAY,
