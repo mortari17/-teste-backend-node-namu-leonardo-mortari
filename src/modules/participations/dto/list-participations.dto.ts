@@ -1,12 +1,17 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { Participation } from '@shared/entity/participation.entity';
-import { MIN_ID } from '@shared/utils/constants.utils';
+import {
+  MAX_NAME_LENGTH,
+  MIN_ID,
+  MIN_NAME_LENGTH,
+} from '@shared/utils/constants.utils';
 import {
   IsDateString,
   IsInt,
   IsOptional,
   IsString,
+  Length,
   Min,
 } from 'class-validator';
 import {
@@ -25,6 +30,7 @@ export class ListParticipationsRequest extends ListGlobalRequest {
   @ApiPropertyOptional({ example: 'Ana Silva' })
   @IsOptional()
   @IsString()
+  @Length(MIN_NAME_LENGTH, MAX_NAME_LENGTH)
   user_name?: string;
 
   @ApiPropertyOptional({ example: 1 })
