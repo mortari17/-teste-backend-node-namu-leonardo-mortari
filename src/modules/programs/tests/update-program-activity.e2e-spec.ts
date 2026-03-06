@@ -8,8 +8,12 @@ const baseEndpoint = '/programs/1/activities';
 describe(`[PUT] ${baseEndpoint}/:activity_id - Update program activity`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {

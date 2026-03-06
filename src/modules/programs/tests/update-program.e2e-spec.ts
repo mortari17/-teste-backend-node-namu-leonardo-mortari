@@ -8,8 +8,12 @@ const endpoint = '/programs';
 describe(`[PUT] ${endpoint}/:id - Update program`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {

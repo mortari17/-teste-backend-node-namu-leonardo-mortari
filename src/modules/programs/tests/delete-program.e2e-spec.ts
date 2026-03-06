@@ -8,10 +8,13 @@ const endpoint = '/programs';
 describe(`[DELETE] ${endpoint}/:id - Delete program`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
   });
 
+  afterAll(async () => {
+    await app.close();
+  });
   describe('Success', () => {
     it('Should be able to successfully delete a program', async () => {
       const { status } = await request(app.getHttpServer()).delete(

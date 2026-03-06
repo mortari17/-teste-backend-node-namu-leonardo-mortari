@@ -10,8 +10,12 @@ const endpoint = '/programs';
 describe(`[POST] ${endpoint} - Create program`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {

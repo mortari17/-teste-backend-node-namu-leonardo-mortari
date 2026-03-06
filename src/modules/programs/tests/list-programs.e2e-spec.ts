@@ -9,8 +9,12 @@ const endpoint = '/programs';
 describe(`[GET] ${endpoint} - List programs`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {

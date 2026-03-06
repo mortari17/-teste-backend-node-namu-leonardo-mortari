@@ -10,8 +10,12 @@ const baseEndpoint = '/programs';
 describe(`[POST] ${baseEndpoint} - Create activity for program`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {

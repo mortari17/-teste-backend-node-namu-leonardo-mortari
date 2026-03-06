@@ -9,8 +9,12 @@ const baseEndpoint = '/programs/1/activities';
 describe(`[GET] ${baseEndpoint} - List activities for a program`, () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     app = await getApp();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Success', () => {
