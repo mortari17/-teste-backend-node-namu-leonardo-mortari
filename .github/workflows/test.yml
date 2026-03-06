@@ -25,13 +25,13 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: npm run build
+        run: pnpm run build
 
       - name: Prettier
         run: pnpm run format
 
       - name: Docker Compose
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Run tests
         run: pnpm run test:e2e
