@@ -30,5 +30,8 @@ jobs:
       - name: Prettier
         run: pnpm run format
 
+      - name: Lint
+        run: pnpm run lint
+
       - name: Run tests
         run: pnpm run test:e2e
