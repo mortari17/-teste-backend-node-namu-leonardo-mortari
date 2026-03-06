@@ -4,18 +4,12 @@ import { MIN_ID } from '@shared/utils/constants.utils';
 import { Transform } from 'class-transformer';
 import { IsInt, Min } from 'class-validator';
 
-export class GetProgramActivityRequest {
+export class GetActivityRequest {
   @ApiProperty({ example: 1 })
   @Transform(({ value }) => Number(value))
   @IsInt()
   @Min(MIN_ID)
   activity_id: number;
-
-  @ApiProperty({ example: 1 })
-  @Transform(({ value }) => Number(value))
-  @IsInt()
-  @Min(MIN_ID)
-  program_id: number;
 }
 
-export class GetProgramActivityResponse extends Activity {}
+export class GetActivityResponse extends Activity {}

@@ -4,6 +4,7 @@ import { Activity } from '@shared/entity/activity.entity';
 import { Participation } from '@shared/entity/participation.entity';
 import { ParticipationController } from './participation.controller';
 import { ParticipationService } from './participation.service';
+import { ActivityService } from '@modules/activities/activity.service';
 
 @Module({
   imports: [
@@ -11,6 +12,6 @@ import { ParticipationService } from './participation.service';
     TypeOrmModule.forFeature([Activity]),
   ],
   controllers: [ParticipationController],
-  providers: [ParticipationService],
+  providers: [ParticipationService, ActivityService],
 })
 export class ParticipationModule {}

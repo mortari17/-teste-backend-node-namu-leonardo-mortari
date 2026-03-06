@@ -3,24 +3,18 @@ import { Transform } from 'class-transformer';
 import { IsInt, Min } from 'class-validator';
 import { MIN_ID } from '@shared/utils/constants.utils';
 import { Activity } from '@shared/entity/activity.entity';
-import { CreateProgramActivityRequest } from './create-program-activity.dto';
+import { CreateProgramActivityRequest } from '../../programs/dto/create-program-activity.dto';
 
-export class UpdateProgramActivityParamRequest {
+export class UpdateActivityParamRequest {
   @ApiProperty({ example: 1 })
   @Transform(({ value }) => Number(value))
   @IsInt()
   @Min(MIN_ID)
   activity_id: number;
-
-  @ApiProperty({ example: 1 })
-  @Transform(({ value }) => Number(value))
-  @IsInt()
-  @Min(MIN_ID)
-  program_id: number;
 }
 
-export class UpdateProgramActivityBodyRequest extends PartialType(
+export class UpdateActivityBodyRequest extends PartialType(
   CreateProgramActivityRequest,
 ) {}
 
-export class UpdateProgramActivityResponse extends Activity {}
+export class UpdateActivityResponse extends Activity {}
