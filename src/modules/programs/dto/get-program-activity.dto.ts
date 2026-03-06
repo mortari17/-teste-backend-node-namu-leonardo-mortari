@@ -1,10 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Program } from '@shared/entity/program.entity';
+import { Activity } from '@shared/entity/activity.entity';
 import { MIN_ID } from '@shared/utils/constants.utils';
 import { Transform } from 'class-transformer';
 import { IsInt, Min } from 'class-validator';
 
-export class GetProgramRequest {
+export class GetProgramActivityRequest {
+  @ApiProperty({ example: 1 })
+  @Transform(({ value }) => Number(value))
+  @IsInt()
+  @Min(MIN_ID)
+  activity_id: number;
+
   @ApiProperty({ example: 1 })
   @Transform(({ value }) => Number(value))
   @IsInt()
@@ -12,4 +18,4 @@ export class GetProgramRequest {
   program_id: number;
 }
 
-export class GetProgramResponse extends Program {}
+export class GetProgramActivityResponse extends Activity {}

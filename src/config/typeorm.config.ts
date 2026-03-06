@@ -2,6 +2,7 @@ import { DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 
 import { Program } from '@shared/entity/program.entity';
+import { Activity } from '@shared/entity/activity.entity';
 
 export const typeorm_config: DataSourceOptions & SeederOptions = {
   type: 'mysql',
@@ -11,5 +12,5 @@ export const typeorm_config: DataSourceOptions & SeederOptions = {
   password: process.env.DB_PASSWORD || 'root',
   database: process.env.DB_NAME || 'namu_wellness',
   logging: false,
-  entities: [Program],
+  entities: [Program, Activity],
 };

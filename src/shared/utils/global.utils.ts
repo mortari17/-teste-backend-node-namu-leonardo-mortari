@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsInt, Min, IsOptional } from 'class-validator';
-import { MIN_ID } from './constants.utils';
+import { IsInt, IsOptional } from 'class-validator';
 
 export class ListGlobalRequest {
   @ApiPropertyOptional({ example: 1 })
@@ -29,14 +28,6 @@ export class ListGlobalResponse<T> {
 
   @ApiProperty()
   total: number;
-}
-
-export class GetGlobalInfoRequest {
-  @ApiProperty({ example: 1 })
-  @Transform(({ value }) => Number(value))
-  @IsInt()
-  @Min(MIN_ID)
-  id: number;
 }
 
 export class DeleteGlobalInfoResponse {

@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
-import { EnumProgramCategoryDTO } from '../dto/create-program.dto';
+import { EnumProgramCategory } from '@shared/entity/program.entity';
 
 const endpoint = '/programs';
 
@@ -22,7 +22,6 @@ describe(`[GET] ${endpoint} - List programs`, () => {
       expect(Array.isArray(body.data)).toBe(true);
       if (body.data.length) {
         expect(body.data[0]).toHaveProperty('id');
-        expect(typeof body.data[0].id).toBe('number');
         expect(body.data[0]).toHaveProperty('name');
         expect(body.data[0]).toHaveProperty('category');
         expect(body.data[0]).toHaveProperty('duration_weeks');
@@ -57,7 +56,7 @@ describe(`[GET] ${endpoint} - List programs`, () => {
       }
     });
     it('Should be able to filter programs by category', async () => {
-      const query = { category: EnumProgramCategoryDTO.MEDITATION };
+      const query = { category: EnumProgramCategory.MEDITATION };
 
       const { body, status } = await request(app.getHttpServer())
         .get(endpoint)

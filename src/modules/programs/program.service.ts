@@ -21,13 +21,28 @@ import {
   UpdateProgramResponse,
 } from './dto/update-program.dto';
 import { DeleteProgramResponse } from './dto/delete-program.dto';
-import { parseCategory } from '@shared/utils/parser.utils';
+import { Activity } from '@shared/entity/activity.entity';
+import { GetProgramActivityResponse } from './dto/get-program-activity.dto';
+import {
+  CreateProgramActivityRequest,
+  CreateProgramActivityResponse,
+} from './dto/create-program-activity.dto';
+import {
+  UpdateProgramActivityBodyRequest,
+  UpdateProgramActivityResponse,
+} from './dto/update-program-activity.dto';
+import {
+  ListProgramActivitiesRequest,
+  ListProgramActivitiesResponse,
+} from './dto/list-program-activities.dto';
 
 @Injectable()
 export class ProgramService {
   constructor(
     @InjectRepository(Program)
     private programRepository: Repository<Program>,
+    @InjectRepository(Activity)
+    private activityRepository: Repository<Activity>,
   ) {}
 
   async getProgram(id: number): Promise<GetProgramResponse> {
@@ -45,10 +60,7 @@ export class ProgramService {
   async createProgram(
     data: CreateProgramRequest,
   ): Promise<CreateProgramResponse> {
-    const program = this.programRepository.create({
-      ...data,
-      category: parseCategory(data.category),
-    });
+    const program = this.programRepository.create(data);
 
     return this.programRepository.save(program);
   }
@@ -65,12 +77,7 @@ export class ProgramService {
       throw new NotFoundException('Program not found');
     }
 
-    const updatedData = {
-      ...data,
-      category: parseCategory(data.category),
-    };
-
-    const updated = this.programRepository.merge(program, updatedData);
+    const updated = this.programRepository.merge(program, data);
 
     return await this.programRepository.save(updated);
   }
@@ -127,12 +134,111 @@ export class ProgramService {
       where: {
         id,
         name: name ? ILike(`%${name}%`) : undefined,
-        category: parseCategory(category),
+        category,
         duration_weeks,
         created_at:
           date_start && date_end ? Between(start_date!, end_date!) : undefined,
       },
       order: { created_at: 'DESC' },
+      take: page_size,
+      skip,
+    });
+
+    return {
+      data,
+      page: filters.page,
+      page_size: filters.page_size,
+      total,
+    };
+  }
+
+  async getProgramActivity(
+    program_id: number,
+    activity_id: number,
+  ): Promise<GetProgramActivityResponse> {
+    const activity = await this.activityRepository.findOne({
+      where: { program_id, id: activity_id },
+    });
+
+    if (!activity) {
+      throw new NotFoundException('Activity not found');
+    }
+
+    return activity;
+  }
+
+  async createProgramActivity(
+    program_id: number,
+    data: CreateProgramActivityRequest,
+  ): Promise<CreateProgramActivityResponse> {
+    const program = await this.programRepository.findOne({
+      where: { id: program_id },
+    });
+
+    if (!program) {
+      throw new NotFoundException('Program not found');
+    }
+
+    const activity = this.activityRepository.create({
+      program_id,
+      ...data,
+    });
+
+    return this.activityRepository.save(activity);
+  }
+
+  async updateProgramActivity(
+    program_id: number,
+    activity_id: number,
+    data: UpdateProgramActivityBodyRequest,
+  ): Promise<UpdateProgramActivityResponse> {
+    const activity = await this.activityRepository.findOne({
+      where: { program_id, id: activity_id },
+    });
+
+    if (!activity) {
+      throw new NotFoundException('Activity not found');
+    }
+
+    const updated = this.activityRepository.merge(activity, data);
+
+    return await this.activityRepository.save(updated);
+  }
+
+  async deleteProgramActivity(
+    program_id: number,
+    activity_id: number,
+  ): Promise<DeleteProgramResponse> {
+    const activity = await this.activityRepository.findOne({
+      where: { program_id, id: activity_id },
+    });
+
+    if (!activity) {
+      throw new NotFoundException('Activity not found');
+    }
+
+    await this.activityRepository.delete({ id: activity_id });
+
+    return { success: true };
+  }
+
+  async listProgramActivities(
+    program_id: number,
+    filters: ListProgramActivitiesRequest,
+  ): Promise<ListProgramActivitiesResponse> {
+    const { page, page_size, id, day_of_week, duration_minutes, title } =
+      filters;
+
+    const skip: number = (page - 1) * page_size;
+
+    const [data, total] = await this.activityRepository.findAndCount({
+      where: {
+        id,
+        title: title ? ILike(`%${title}%`) : undefined,
+        day_of_week,
+        duration_minutes,
+        program_id,
+      },
       take: page_size,
       skip,
     });
