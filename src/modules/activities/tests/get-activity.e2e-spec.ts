@@ -3,9 +3,9 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 
-const baseEndpoint = '/programs/1/activities';
+const baseEndpoint = '/activities';
 
-describe(`[GET] ${baseEndpoint}/:activity_id - Get program activity by id`, () => {
+describe(`[GET] ${baseEndpoint}/:activity_id - Get activity by id`, () => {
   let app: INestApplication;
 
   beforeAll(async () => {

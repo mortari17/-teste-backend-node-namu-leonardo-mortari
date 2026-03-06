@@ -7,7 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Between, ILike, Repository } from 'typeorm';
 import { endOfDay, startOfDay } from 'date-fns';
 import { Participation } from '@shared/entity/participation.entity';
-import { Activity } from '@shared/entity/activity.entity';
 import { GetParticipationResponse } from './dto/get-participation.dto';
 import {
   CreateParticipationRequest,
@@ -22,14 +21,14 @@ import {
   ListParticipationsRequest,
   ListParticipationsResponse,
 } from './dto/list-participations.dto';
+import { ActivityService } from '@modules/activities/activity.service';
 
 @Injectable()
 export class ParticipationService {
   constructor(
-    @InjectRepository(Activity)
-    private activityRepository: Repository<Activity>,
     @InjectRepository(Participation)
     private participationRepository: Repository<Participation>,
+    private activityService: ActivityService,
   ) {}
 
   async getParticipation(id: number): Promise<GetParticipationResponse> {
@@ -47,13 +46,7 @@ export class ParticipationService {
   async createParticipation(
     data: CreateParticipationRequest,
   ): Promise<CreateParticipationResponse> {
-    const activity = await this.activityRepository.findOne({
-      where: { id: data.activity_id },
-    });
-
-    if (!activity) {
-      throw new NotFoundException('Activity not found');
-    }
+    await this.activityService.getActivity(data.activity_id);
 
     const participation = this.participationRepository.create(data);
 
@@ -64,13 +57,7 @@ export class ParticipationService {
     id: number,
     data: UpdateParticipationBodyRequest,
   ): Promise<UpdateParticipationResponse> {
-    const participation = await this.participationRepository.findOne({
-      where: { id },
-    });
-
-    if (!participation) {
-      throw new NotFoundException('Participation not found');
-    }
+    const participation = await this.getParticipation(id);
 
     const updated = this.participationRepository.merge(participation, data);
 
@@ -78,13 +65,7 @@ export class ParticipationService {
   }
 
   async deleteParticipation(id: number): Promise<DeleteParticipationResponse> {
-    const participation = await this.participationRepository.findOne({
-      where: { id },
-    });
-
-    if (!participation) {
-      throw new NotFoundException('Participation not found');
-    }
+    await this.getParticipation(id);
 
     await this.participationRepository.delete({ id });
 
