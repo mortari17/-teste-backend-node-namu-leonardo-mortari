@@ -1,7 +1,19 @@
-
-version: "3.8"
-
 services:
+  app:
+    build: .
+    container_name: namu_wellness_api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-namu_wellness}
+    depends_on:
+      - mysql
+
   mysql:
     image: mysql:8
     container_name: namu_wellness_db
