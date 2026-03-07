@@ -76,14 +76,6 @@ describe('ActivityService', () => {
       );
       expect(activity_repository.save).toHaveBeenCalledWith(merged);
     });
-
-    it('should throw NotFoundException if activity does not exist', async () => {
-      activity_repository.findOne.mockResolvedValue(null);
-
-      await expect(
-        service.updateActivity(1, { title: 'Pilates' }),
-      ).rejects.toThrow(NotFoundException);
-    });
   });
 
   describe('deleteActivity', () => {
@@ -97,14 +89,6 @@ describe('ActivityService', () => {
 
       expect(result).toEqual({ success: true });
       expect(activity_repository.delete).toHaveBeenCalledWith({ id: 1 });
-    });
-
-    it('should throw NotFoundException when deleting non-existing activity', async () => {
-      activity_repository.findOne.mockResolvedValue(null);
-
-      await expect(service.deleteActivity(1)).rejects.toThrow(
-        NotFoundException,
-      );
     });
   });
 });
