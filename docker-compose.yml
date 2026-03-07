@@ -4,11 +4,11 @@ services:
     container_name: namu_wellness_api
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${PORT:-3000}:3000"
     environment:
       DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: root
+      DB_PORT: ${DB_PORT:-3306}
+      DB_USER: ${DB_USER:-root}
       DB_PASSWORD: ${DB_PASSWORD:-root}
       DB_NAME: ${DB_NAME:-namu_wellness}
     depends_on:
