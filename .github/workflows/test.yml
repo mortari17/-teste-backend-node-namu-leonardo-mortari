@@ -34,4 +34,7 @@ jobs:
         run: pnpm run lint:check
 
       - name: Run tests
+        run: pnpm run test
+
+      - name: Run tests
         run: pnpm run test:e2e
