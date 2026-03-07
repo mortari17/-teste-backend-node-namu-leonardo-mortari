@@ -33,6 +33,9 @@ describe(`[PUT] ${endpoint}/:id - Update program`, () => {
       expect(body.id).toBe(1);
       expect(body.name).toBe(payload.name);
       expect(body.duration_weeks).toBe(payload.duration_weeks);
+      expect(new Date(body.updated_at).getTime()).toBeGreaterThan(
+        new Date(body.created_at).getTime(),
+      );
     });
   });
 
