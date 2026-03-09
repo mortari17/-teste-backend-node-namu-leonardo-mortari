@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, ILike, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Program } from '@shared/entity/program.entity';
 import { GetProgramResponse } from './dto/get-program.dto';
 import {
@@ -27,7 +27,12 @@ import {
 } from './dto/list-program-activities.dto';
 import { GetProgramSummaryResponse } from './dto/get-program-summary.dto';
 import { Participation } from '@shared/entity/participation.entity';
-import { validateStartAndEndDates } from '@shared/utils/validators.utils';
+import {
+  getSkipForPagination,
+  useAsDateInterval,
+  useAsIlike,
+  validateStartAndEndDates,
+} from '@shared/utils/helpers.utils';
 
 @Injectable()
 export class ProgramService {
@@ -93,23 +98,25 @@ export class ProgramService {
       date_start,
     } = filters;
 
-    const skip: number = (page - 1) * page_size;
-
     const { date_start_time, date_end_time } = validateStartAndEndDates(
       date_start,
       date_end,
     );
 
+    const skip = getSkipForPagination(page, page_size);
+
     const [data, total] = await this.programRepository.findAndCount({
       where: {
         id,
-        name: name ? ILike(`%${name}%`) : undefined,
+        name: useAsIlike(name),
         category,
         duration_weeks,
-        created_at:
-          date_start && date_end
-            ? Between(date_start_time!, date_end_time!)
-            : undefined,
+        created_at: useAsDateInterval(
+          date_start,
+          date_end,
+          date_start_time,
+          date_end_time,
+        ),
       },
       order: { created_at: 'DESC' },
       take: page_size,
@@ -118,8 +125,8 @@ export class ProgramService {
 
     return {
       data,
-      page: filters.page,
-      page_size: filters.page_size,
+      page,
+      page_size,
       total,
     };
   }
@@ -145,12 +152,12 @@ export class ProgramService {
     const { page, page_size, id, day_of_week, duration_minutes, title } =
       filters;
 
-    const skip: number = (page - 1) * page_size;
+    const skip = getSkipForPagination(page, page_size);
 
     const [data, total] = await this.activityRepository.findAndCount({
       where: {
         id,
-        title: title ? ILike(`%${title}%`) : undefined,
+        title: useAsIlike(title),
         day_of_week,
         duration_minutes,
         program_id,
@@ -161,8 +168,8 @@ export class ProgramService {
 
     return {
       data,
-      page: filters.page,
-      page_size: filters.page_size,
+      page,
+      page_size,
       total,
     };
   }
@@ -199,7 +206,7 @@ export class ProgramService {
       total_activities,
       total_participations,
       top_participants: top_participants.map((p) => ({
-        user_name: p.user_name,
+        user_name: String(p.user_name),
         participations: Number(p.participations),
       })),
     };
