@@ -19,9 +19,9 @@ CRUD completo de programas.
 ```http
 POST /programs
 GET /programs
-GET /programs/:id
-PUT /programs/:id
-DELETE /programs/:id
+GET /programs/:program_id
+PUT /programs/:program_id
+DELETE /programs/:program_id
 ```
 
 ---
@@ -33,11 +33,11 @@ CRUD completo de atividades vinculadas a um programa.
 Endpoints:
 
 ```http
-POST /programs/:programId/activities
-GET /programs/:programId/activities
-GET /activities/:id
-PUT /activities/:id
-DELETE /activities/:id
+POST /programs/:program_id/activities
+GET /programs/:program_id/activities
+GET /activities/:activity_id
+PUT /activities/:activity_id
+DELETE /activities/:activity_id
 ```
 
 ---
@@ -49,9 +49,9 @@ CRUD completo de participações de usuários em atividades.
 ```http
 POST /participations
 GET /participations
-GET /participations/:id
-PUT /participations/:id
-DELETE /participations/:id
+GET /participations/:participation_id
+PUT /participations/:participation_id
+DELETE /participations/:participation_id
 ```
 
 ---
@@ -62,7 +62,7 @@ Relatório simples de um programa. Retorna total de atividades, total de partici
 ativos.
 
 ```http
-GET /programs/:programId/summary
+GET /programs/:program_id/summary
 ```
 
 ---
@@ -251,8 +251,6 @@ Cada módulo contém:
 - service
 - DTOs
 - testes (e2e e unitários)
-
-Isso facilita manutenção e escalabilidade.
 
 ---
 
