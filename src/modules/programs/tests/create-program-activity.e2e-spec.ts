@@ -3,7 +3,7 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 import { CreateProgramActivityRequest } from '../dto/create-program-activity.dto';
-import { EnumDayOfWeek } from '@shared/entity/activity.entity';
+import { EnumDayOfWeek } from '@modules/activities/entities/activity.entity';
 
 const base_endpoint = '/programs';
 

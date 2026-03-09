@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Activity } from '@shared/entity/activity.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
 import { ActivityService } from './activity.service';
 import { ActivityController } from './activity.controller';
 

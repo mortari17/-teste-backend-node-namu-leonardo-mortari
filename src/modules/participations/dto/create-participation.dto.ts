@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Participation } from '@shared/entity/participation.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 import {
   IsInt,
   IsOptional,

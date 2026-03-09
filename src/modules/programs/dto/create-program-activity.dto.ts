@@ -1,5 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Activity, EnumDayOfWeek } from '@shared/entity/activity.entity';
+import {
+  Activity,
+  EnumDayOfWeek,
+} from '@modules/activities/entities/activity.entity';
 import {
   MAX_NAME_LENGTH,
   MIN_DURATION_MINUTUES,

@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
-import { EnumProgramCategory } from '@shared/entity/program.entity';
+import { EnumProgramCategory } from '@modules/programs/entities/program.entity';
 
 const endpoint = '/programs';
 

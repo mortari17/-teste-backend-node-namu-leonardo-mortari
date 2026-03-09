@@ -7,8 +7,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Program } from './program.entity';
-import { Participation } from './participation.entity';
+import { Program } from '@modules/programs/entities/program.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 
 export enum EnumDayOfWeek {
   MONDAY = 'segunda',

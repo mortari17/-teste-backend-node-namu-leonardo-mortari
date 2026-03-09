@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Participation } from '@shared/entity/participation.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 import { MIN_ID } from '@shared/utils/constants.utils';
 import { Transform } from 'class-transformer';
 import { IsInt, Min } from 'class-validator';

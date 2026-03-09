@@ -1,5 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { EnumProgramCategory, Program } from '@shared/entity/program.entity';
+import {
+  EnumProgramCategory,
+  Program,
+} from '@modules/programs/entities/program.entity';
 import {
   MAX_NAME_LENGTH,
   MIN_DURATION_WEEKS,

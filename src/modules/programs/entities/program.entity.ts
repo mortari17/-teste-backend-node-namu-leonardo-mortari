@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Activity } from './activity.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
 
 export enum EnumProgramCategory {
   MEDITATION = 'meditacao',

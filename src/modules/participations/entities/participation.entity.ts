@@ -7,7 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Activity } from './activity.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
 
 @Entity('participations')
 export class Participation {

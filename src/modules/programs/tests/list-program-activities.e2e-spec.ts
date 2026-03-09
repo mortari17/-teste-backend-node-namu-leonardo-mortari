@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
-import { EnumDayOfWeek } from '@shared/entity/activity.entity';
+import { EnumDayOfWeek } from '@modules/activities/entities/activity.entity';
 
 const base_endpoint = '/programs/1/activities';
 

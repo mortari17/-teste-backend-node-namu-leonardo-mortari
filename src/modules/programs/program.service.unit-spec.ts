@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProgramService } from './program.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Program } from '@shared/entity/program.entity';
-import { Activity } from '@shared/entity/activity.entity';
-import { Participation } from '@shared/entity/participation.entity';
+import { Program } from '@modules/programs/entities/program.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 import { NotFoundException } from '@nestjs/common';
 
 describe('ProgramService', () => {

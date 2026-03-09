@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Participation } from '@shared/entity/participation.entity';
 import { GetParticipationResponse } from './dto/get-participation.dto';
 import {
   CreateParticipationRequest,
@@ -23,6 +22,7 @@ import {
   useAsIlike,
   validateStartAndEndDates,
 } from '@shared/utils/helpers.utils';
+import { Participation } from './entities/participation.entity';
 
 @Injectable()
 export class ParticipationService {

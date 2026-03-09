@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ParticipationService } from './participation.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Participation } from '@shared/entity/participation.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 import { ActivityService } from '@modules/activities/activity.service';
 import { NotFoundException } from '@nestjs/common';
 

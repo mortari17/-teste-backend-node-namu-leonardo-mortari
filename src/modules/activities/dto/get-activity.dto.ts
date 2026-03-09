@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Activity } from '@shared/entity/activity.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
 import { MIN_ID } from '@shared/utils/constants.utils';
 import { Transform } from 'class-transformer';
 import { IsInt, Min } from 'class-validator';

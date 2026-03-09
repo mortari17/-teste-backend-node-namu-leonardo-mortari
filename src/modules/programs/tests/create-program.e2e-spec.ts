@@ -3,7 +3,7 @@ import request from 'supertest';
 
 import { getApp } from '../../../../test/testing-module';
 import { CreateProgramRequest } from '../dto/create-program.dto';
-import { EnumProgramCategory } from '@shared/entity/program.entity';
+import { EnumProgramCategory } from '@modules/programs/entities/program.entity';
 
 const endpoint = '/programs';
 

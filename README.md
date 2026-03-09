@@ -242,7 +242,6 @@ O projeto segue uma arquitetura modular inspirada nas boas práticas do NestJS:
     - programs
   - shared
     - decorator
-    - entity
     - utils
 
 Cada módulo contém:
@@ -250,7 +249,36 @@ Cada módulo contém:
 - controller
 - service
 - DTOs
+- entities
 - testes (e2e e unitários)
+
+---
+
+## Separação de Módulos
+
+A separação de módulos no NestJS organiza o sistema em unidades coesas responsáveis por partes específicas do domínio da aplicação.
+
+### Objetivos
+
+**Separação de responsabilidades**  
+Cada módulo concentra funcionalidades relacionadas a um mesmo contexto, evitando que regras de negócio, serviços e controladores fiquem espalhados pelo projeto.
+
+**Redução de acoplamento**  
+As dependências entre partes do sistema são definidas explicitamente por meio de `imports` e `exports`, reduzindo dependências implícitas e facilitando a manutenção.
+
+**Prevenção de dependências circulares**  
+A modularização ajuda a evitar ciclos de importação entre componentes do sistema, problema que pode gerar erros de inicialização e dificultar a manutenção do código.
+
+**Escalabilidade**  
+A estrutura modular permite que o sistema cresça sem comprometer a organização do código, facilitando a adição de novas funcionalidades.
+
+### Benefícios
+
+- Melhor organização do código
+- Maior facilidade de manutenção
+- Dependências mais claras
+- Redução de dependências circulares
+- Estrutura mais escalável
 
 ---
 

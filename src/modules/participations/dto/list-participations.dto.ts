@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { Participation } from '@shared/entity/participation.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 import {
   MAX_NAME_LENGTH,
   MIN_ID,
