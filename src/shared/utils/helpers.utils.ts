@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { endOfDay, startOfDay } from 'date-fns';
+import { Between, FindOperator, ILike } from 'typeorm';
 
 export function validateStartAndEndDates(
   date_start?: string,
@@ -24,4 +25,23 @@ export function validateStartAndEndDates(
   }
 
   return { date_start_time, date_end_time };
+}
+
+export function getSkipForPagination(page: number, page_size: number): number {
+  return (page - 1) * page_size;
+}
+
+export function useAsIlike(value?: string): FindOperator<string> | undefined {
+  return value ? ILike(`%${value}%`) : undefined;
+}
+
+export function useAsDateInterval(
+  date_start?: string,
+  date_end?: string,
+  date_start_time?: Date,
+  date_end_time?: Date,
+): FindOperator<Date> | undefined {
+  return date_start && date_end
+    ? Between(date_start_time!, date_end_time!)
+    : undefined;
 }

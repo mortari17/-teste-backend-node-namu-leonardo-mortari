@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, ILike, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Participation } from '@shared/entity/participation.entity';
 import { GetParticipationResponse } from './dto/get-participation.dto';
 import {
@@ -17,7 +17,12 @@ import {
   ListParticipationsResponse,
 } from './dto/list-participations.dto';
 import { ActivityService } from '@modules/activities/activity.service';
-import { validateStartAndEndDates } from '@shared/utils/validators.utils';
+import {
+  getSkipForPagination,
+  useAsDateInterval,
+  useAsIlike,
+  validateStartAndEndDates,
+} from '@shared/utils/helpers.utils';
 
 @Injectable()
 export class ParticipationService {
@@ -81,22 +86,24 @@ export class ParticipationService {
       date_start,
     } = filters;
 
-    const skip: number = (page - 1) * page_size;
-
     const { date_start_time, date_end_time } = validateStartAndEndDates(
       date_start,
       date_end,
     );
 
+    const skip = getSkipForPagination(page, page_size);
+
     const [data, total] = await this.participationRepository.findAndCount({
       where: {
         id,
-        user_name: user_name ? ILike(`%${user_name}%`) : undefined,
+        user_name: useAsIlike(user_name),
         activity_id,
-        completed_at:
-          date_start && date_end
-            ? Between(date_start_time!, date_end_time!)
-            : undefined,
+        completed_at: useAsDateInterval(
+          date_start,
+          date_end,
+          date_start_time,
+          date_end_time,
+        ),
       },
       order: { completed_at: 'DESC' },
       take: page_size,
@@ -105,8 +112,8 @@ export class ParticipationService {
 
     return {
       data,
-      page: filters.page,
-      page_size: filters.page_size,
+      page,
+      page_size,
       total,
     };
   }
