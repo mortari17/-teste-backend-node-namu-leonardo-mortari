@@ -1,4 +1,4 @@
-# Wellness Programs API
+# Teste Técnico — Desenvolvedor Backend Node.js (Júnior/Pleno) Namu - Leonardo Mortari
 
 API REST para gerenciamento de programas de bem-estar, atividades e participação de usuários.
 
