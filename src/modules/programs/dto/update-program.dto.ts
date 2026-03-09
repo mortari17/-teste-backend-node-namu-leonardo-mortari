@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/swagger';
 import { CreateProgramRequest } from './create-program.dto';
-import { Program } from '@shared/entity/program.entity';
+import { Program } from '@modules/programs/entities/program.entity';
 import { GetProgramRequest } from './get-program.dto';
 
 export class UpdateProgramParamRequest extends GetProgramRequest {}

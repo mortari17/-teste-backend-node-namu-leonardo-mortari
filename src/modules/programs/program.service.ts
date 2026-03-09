@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, ILike, Repository } from 'typeorm';
-import { Program } from '@shared/entity/program.entity';
+import { Program } from '@modules/programs/entities/program.entity';
 import { GetProgramResponse } from './dto/get-program.dto';
 import {
   ListProgramsRequest,
@@ -16,7 +16,7 @@ import {
   UpdateProgramResponse,
 } from './dto/update-program.dto';
 import { DeleteProgramResponse } from './dto/delete-program.dto';
-import { Activity } from '@shared/entity/activity.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
 import {
   CreateProgramActivityRequest,
   CreateProgramActivityResponse,
@@ -26,7 +26,7 @@ import {
   ListProgramActivitiesResponse,
 } from './dto/list-program-activities.dto';
 import { GetProgramSummaryResponse } from './dto/get-program-summary.dto';
-import { Participation } from '@shared/entity/participation.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 import { validateStartAndEndDates } from '@shared/utils/validators.utils';
 
 @Injectable()

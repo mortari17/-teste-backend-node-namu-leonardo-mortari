@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Activity } from '@shared/entity/activity.entity';
-import { Participation } from '@shared/entity/participation.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 import { ParticipationController } from './participation.controller';
 import { ParticipationService } from './participation.service';
 import { ActivityService } from '@modules/activities/activity.service';

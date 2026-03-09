@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Activity } from '@shared/entity/activity.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
 import { Repository } from 'typeorm';
 import { GetActivityResponse } from './dto/get-activity.dto';
 import {

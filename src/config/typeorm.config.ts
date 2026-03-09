@@ -1,9 +1,9 @@
 import { DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 
-import { Program } from '@shared/entity/program.entity';
-import { Activity } from '@shared/entity/activity.entity';
-import { Participation } from '@shared/entity/participation.entity';
+import { Program } from '@modules/programs/entities/program.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 
 export const typeorm_config: DataSourceOptions & SeederOptions = {
   type: 'mysql',

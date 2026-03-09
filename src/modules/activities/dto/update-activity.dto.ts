@@ -2,7 +2,7 @@ import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { IsInt, Min } from 'class-validator';
 import { MIN_ID } from '@shared/utils/constants.utils';
-import { Activity } from '@shared/entity/activity.entity';
+import { Activity } from '@modules/activities/entities/activity.entity';
 import { CreateProgramActivityRequest } from '../../programs/dto/create-program-activity.dto';
 
 export class UpdateActivityParamRequest {
