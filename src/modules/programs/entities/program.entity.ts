@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Activity } from '@modules/activities/entities/activity.entity';
 
 export enum EnumProgramCategory {
   MEDITATION = 'meditacao',
@@ -42,4 +44,7 @@ export class Program {
   @ApiProperty()
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
+
+  @OneToMany(() => Activity, (activity) => activity.program)
+  activities: Activity[];
 }

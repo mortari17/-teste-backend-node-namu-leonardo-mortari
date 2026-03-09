@@ -1,6 +1,9 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { Activity, EnumDayOfWeek } from '@modules/activities/entities/activity.entity';
+import {
+  Activity,
+  EnumDayOfWeek,
+} from '@modules/activities/entities/activity.entity';
 import {
   MIN_ID,
   MIN_NAME_LENGTH,

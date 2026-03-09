@@ -1,5 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Program } from '@modules/programs/entities/program.entity';
+import { Participation } from '@modules/participations/entities/participation.entity';
 
 export enum EnumDayOfWeek {
   MONDAY = 'segunda',
@@ -36,4 +45,11 @@ export class Activity {
   @ApiProperty()
   @Column('int')
   duration_minutes: number;
+
+  @ManyToOne(() => Program, (program) => program.activities)
+  @JoinColumn({ name: 'program_id' })
+  program: Program;
+
+  @OneToMany(() => Participation, (p) => p.activity)
+  participations: Participation[];
 }
