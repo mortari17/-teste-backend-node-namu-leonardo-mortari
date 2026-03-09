@@ -1,98 +1,279 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Wellness Programs API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST para gerenciamento de programas de bem-estar, atividades e participação de usuários.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+O projeto simula um cenário comum em plataformas de saúde e bem-estar, permitindo cadastrar programas (como meditação, yoga e nutrição), definir atividades dentro desses programas e registrar a participação dos usuários.
 
-## Description
+Este projeto foi desenvolvido como parte de um teste técnico backend.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Autor: **Leonardo Mortari**.
 
-## Project setup
+---
 
-```bash
-$ pnpm install
+# Funcionalidades
+
+## Programs
+
+CRUD completo de programas.
+
+```http
+POST /programs
+GET /programs
+GET /programs/:id
+PUT /programs/:id
+DELETE /programs/:id
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ pnpm run start
+## Activities
 
-# watch mode
-$ pnpm run start:dev
+CRUD completo de atividades vinculadas a um programa.
 
-# production mode
-$ pnpm run start:prod
+Endpoints:
+
+```http
+POST /programs/:programId/activities
+GET /programs/:programId/activities
+GET /activities/:id
+PUT /activities/:id
+DELETE /activities/:id
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ pnpm run test
+## Participations
 
-# e2e tests
-$ pnpm run test:e2e
+CRUD completo de participações de usuários em atividades.
 
-# test coverage
-$ pnpm run test:cov
+```http
+POST /participations
+GET /participations
+GET /participations/:id
+PUT /participations/:id
+DELETE /participations/:id
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Program Summary
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Relatório simples de um programa. Retorna total de atividades, total de participações e lista dos 5 participantes mais
+ativos.
 
-```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+```http
+GET /programs/:programId/summary
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+# Tecnologias utilizadas
 
-Check out a few resources that may come in handy when working with NestJS:
+## NestJS
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Framework backend baseado em arquitetura modular e fortemente tipado com TypeScript.
 
-## Support
+Motivos da escolha:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- organização clara por módulos
+- injeção de dependência nativa
+- arquitetura escalável
+- integração simples com ferramentas do ecossistema
 
-## Stay in touch
+---
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## TypeORM
 
-## License
+ORM utilizado para acesso ao banco de dados.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Motivos da escolha:
+
+- integração direta com NestJS
+- suporte a migrations
+- abstração segura de queries
+- possibilidade de criação de consultas mais complexas
+
+---
+
+## MySQL
+
+Banco de dados relacional utilizado para persistência.
+
+Escolhido por ser amplamente utilizado em aplicações web e por já estar definido nos requisitos do teste técnico.
+
+---
+
+## Docker / Docker Compose
+
+Utilizado para facilitar a execução do projeto e garantir um ambiente consistente.
+
+O Docker Compose sobe dois serviços:
+
+- API NestJS
+- Banco de dados MySQL
+
+Dessa forma, toda a aplicação pode ser iniciada com um único comando.
+
+---
+
+## pnpm
+
+Gerenciador de pacotes utilizado no projeto.
+
+Motivos da escolha:
+
+- instalação mais rápida que npm/yarn
+- melhor gerenciamento de dependências
+- uso eficiente de espaço em disco
+
+---
+
+## Jest
+
+Framework utilizado para testes.
+
+Foram implementados:
+
+- testes unitários para regras de negócio
+- testes de integração (E2E) para endpoints principais
+
+---
+
+## ESLint + Prettier
+
+Ferramentas utilizadas para manter:
+
+- padronização de código
+- formatação consistente
+- prevenção de erros comuns
+
+---
+
+# Instalação
+
+## 1. Clonar o repositório
+
+```bash
+git clone <repo>
+cd <repo>
+```
+
+---
+
+## 2. Configurar variáveis de ambiente
+
+```bash
+cp .env.example .env
+```
+
+---
+
+## 3. Subir toda a aplicação com Docker
+
+```bash
+pnpm run start:docker
+```
+
+Isso iniciará:
+
+- API NestJS
+- Banco MySQL
+
+A API ficará disponível em:
+
+```
+http://localhost:3000
+```
+
+E, usando a documentação interativa da API do **Swagger**:
+
+```
+http://localhost:3000/docs
+```
+
+---
+
+# Testes
+
+Executar testes unitários:
+
+```bash
+pnpm run test
+```
+
+Executar testes E2E:
+
+```bash
+pnpm run test:e2e
+```
+
+---
+
+# Health Check
+
+Endpoint disponível para verificação da aplicação:
+
+```http
+GET /health
+```
+
+---
+
+# CI
+
+O projeto possui um workflow de **GitHub Actions** que executa automaticamente:
+
+- instalação das dependências
+- execução dos testes
+
+a cada push no repositório e abertura de PRs.
+
+---
+
+# Estrutura do Projeto
+
+O projeto segue uma arquitetura modular inspirada nas boas práticas do NestJS:
+
+- src
+  - config
+  - modules
+    - activities
+    - participations
+    - programs
+  - shared
+    - decorator
+    - entity
+    - utils
+
+Cada módulo contém:
+
+- controller
+- service
+- DTOs
+- testes (e2e e unitários)
+
+Isso facilita manutenção e escalabilidade.
+
+---
+
+## Uso de DTOs
+
+DTOs foram utilizados para:
+
+- validação de dados
+- tipagem clara das requisições
+- separação entre entrada da API e modelo de domínio
+
+---
+
+# O que faria diferente com mais tempo
+
+Algumas melhorias que poderiam ser implementadas:
+
+- Uso de Redis para cache de consultas frequentes, como o relatório de resumo de programas, reduzindo carga no banco de dados.
+
+- Melhoria no modelo de usuários, criando uma tabela `users` para representar os usuários da aplicação em vez de apenas armazenar `user_name` como texto nas participações.
+
+- Implementação de auditoria nas entidades, adicionando campos como `created_by`, `created_at`, `updated_by` e `updated_at` nas tabelas para rastrear alterações realizadas no sistema.
+
+- Implementação de novos endpoints de relatórios, como programas com maior número de participações e atividades mais realizadas.
