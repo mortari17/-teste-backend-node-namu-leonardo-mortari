@@ -179,6 +179,9 @@ Isso iniciará:
 - API NestJS
 - Banco MySQL
 
+⚠️ Após iniciar os containers, aguarde até que a conexão entre a API e o banco de dados seja estabelecida.
+Esse processo pode levar cerca de 10 segundos.
+
 A API ficará disponível em:
 
 ```
@@ -194,6 +197,12 @@ http://localhost:3000/docs
 ---
 
 # Testes
+
+Antes de executar os testes, instale as dependências do projeto:
+
+```bash
+pnpm install
+```
 
 Executar testes unitários:
 
