@@ -3,8 +3,11 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Activity } from './activity.entity';
 
 @Entity('participations')
 export class Participation {
@@ -27,4 +30,8 @@ export class Participation {
   @ApiPropertyOptional()
   @Column('text', { nullable: true })
   notes?: string;
+
+  @ManyToOne(() => Activity, (activity) => activity.participations)
+  @JoinColumn({ name: 'activity_id' })
+  activity: Activity;
 }
